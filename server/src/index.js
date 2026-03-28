@@ -1,5 +1,4 @@
 const express = require("express");
-const mongoose = require("mongoose");
 const cors = require("cors");
 require("dotenv").config();
 
@@ -16,41 +15,30 @@ app.use((req, res, next) => {
   next();
 });
 
-// Database connection
-const connectDB = async () => {
-  try {
-    const mongoUri =
-      process.env.MONGODB_URI || "mongodb://127.0.0.1:27017/taskflow";
-    await mongoose.connect(mongoUri, {
-      useNewUrlParser: true,
-      useUnifiedTopology: true,
-    });
-    console.log("✓ MongoDB connected successfully");
-  } catch (error) {
-    console.error("✗ MongoDB connection failed:", error.message);
-    process.exit(1);
-  }
-};
-
 // Routes
 app.get("/", (req, res) => {
   res.status(200).json({
     message: "TaskFlow API Running",
     version: "1.0.0",
     timestamp: new Date().toISOString(),
+    database: "demo mode (MongoDB disabled for now)",
   });
 });
 
 app.get("/api/health", (req, res) => {
-  res.status(200).json({ status: "healthy", timestamp: new Date() });
+  res.status(200).json({ 
+    status: "healthy", 
+    timestamp: new Date(),
+  });
 });
 
-// Error handling middleware
-app.use((err, req, res, next) => {
-  console.error("Error:", err.message);
-  res.status(err.status || 500).json({
-    error: err.message || "Internal Server Error",
-    timestamp: new Date().toISOString(),
+app.get("/api/tasks", (req, res) => {
+  res.status(200).json({
+    message: "TaskFlow API - Demo Mode",
+    tasks: [
+      { id: 1, title: "Sample Task 1", status: "pending", priority: "high" },
+      { id: 2, title: "Sample Task 2", status: "in-progress", priority: "medium" }
+    ]
   });
 });
 
@@ -62,15 +50,21 @@ app.use((req, res) => {
   });
 });
 
+// Error handling middleware
+app.use((err, req, res, next) => {
+  console.error("Error:", err.message);
+  res.status(err.status || 500).json({
+    error: err.message || "Internal Server Error",
+    timestamp: new Date().toISOString(),
+  });
+});
+
 // Start server
 const PORT = process.env.PORT || 5000;
-const startServer = async () => {
-  await connectDB();
-  app.listen(PORT, () => {
-    console.log(`✓ Server running on http://localhost:${PORT}`);
-  });
-};
-
-startServer();
+app.listen(PORT, () => {
+  console.log(`✓ Server running on http://localhost:${PORT}`);
+  console.log(`✓ API Health: http://localhost:${PORT}/api/health`);
+  console.log(`✓ API Tasks: http://localhost:${PORT}/api/tasks`);
+});
 
 module.exports = app;
