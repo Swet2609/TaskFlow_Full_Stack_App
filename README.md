@@ -1,3 +1,3 @@
-# TaskFlow Full Stack App
+# TaskFlow - Production Full-Stack Application
 
-A simple full-stack task management app.
+A modern, production-ready task management application built with MERN stack.

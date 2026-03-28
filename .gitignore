@@ -5,32 +5,70 @@ yarn-debug.log*
 yarn-error.log*
 package-lock.json
 yarn.lock
+pnpm-lock.yaml
 
 # Production builds
+/build
+/dist
 client/build/
-client/.next/
 server/dist/
+.next/
+out/
 
-# Environment variables
+# Environment variables (NEVER commit these!)
 .env
 .env.local
 .env.*.local
+.env.production.local
 
-# IDE
+# IDE and Editor files
 .vscode/
 .idea/
 *.swp
 *.swo
 *~
 .DS_Store
-
-# OS
 Thumbs.db
+*.sublime-project
+*.sublime-workspace
+.project
+.classpath
+*.c9/
+*.iml
 
-# Logs
+# OS files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+
+# Logs and temporary files
 logs/
+tmp/
+temp/
 *.log
+lerna-debug.log*
+report.[0-9]*.[0-9]*.[0-9]*.[0-9]*.json
 
-# Misc
-.cache/
+# Coverage and test outputs
 coverage/
+.nyc_output/
+**/test-results/
+
+# Cache files
+.eslintcache
+.stylelintcache
+.prettier-cache
+
+# Docker volumes
+mongodb_data/
+
+# Miscellaneous
+*.bak
+*.tmp
+*.swp
+.cache/
+dist/
+build/
